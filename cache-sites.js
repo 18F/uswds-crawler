@@ -5,13 +5,19 @@ const chalk = require('chalk');
 const sites = require('./sites');
 
 const MAX_REQUESTS = 10;
+const USER_AGENT = "uswds-crawler";
 const WARNING = chalk.yellow('WARNING');
 
 function cacheSites() {
   return new Promise((resolve, reject) => {
     async.eachLimit(sites.all, MAX_REQUESTS, (site, cb) => {
       if (site.hasCacheSync()) return cb();
-      request.get(site.url, (err, res, body) => {
+      request({
+        url: site.url,
+        headers: {
+          'User-Agent': USER_AGENT
+        },
+      }, (err, res, body) => {
         if (err) {
           console.log(`${WARNING}: Fetching ${site.desc} ` +
                       `errored with ${err}`);
