@@ -27,6 +27,19 @@ node find-bad-govbanners.js
 
 [bad gov banners]: https://github.com/18F/web-design-standards/issues/1738
 
+### Finding class usage
+
+To find statistics about the usage of particular USWDS classes, run:
+
+```
+node find-usa-class-usage.js
+```
+
+Note that this only finds USWDS classes if they are namespaced via
+the default `usa-` prefix. If a website is using a custom build of
+USWDS that changes this default prefix, its use of USWDS classes
+won't be detected.
+
 ## Clearing and re-populating the cache
 
 To clear your cached copies of the front pages of all Standards sites,
