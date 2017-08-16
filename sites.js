@@ -46,6 +46,9 @@ Site.add = function(site) {
   this.slugs.add(site.slug);
   this.all.push(site);
 };
+Site.getCachedSync = function() {
+  return this.all.filter(site => site.hasCacheSync());
+};
 
 // https://gist.github.com/mathewbyrne/1280286
 function slugify(text) {

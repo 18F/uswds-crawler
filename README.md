@@ -12,7 +12,20 @@ node cache-sites.js
 ```
 
 At this point, the front page of all sites that use the Standards
-will be cached in the `cache` directory.
+will be cached in the `cache` directory. At this point you can
+run queries, described below.
+
+## Queries
+
+### Finding bad gov banners
+
+To find sites that are using [bad gov banners][], run:
+
+```
+node find-bad-govbanners.js
+```
+
+[bad gov banners]: https://github.com/18F/web-design-standards/issues/1738
 
 ## Clearing and re-populating the cache
 
