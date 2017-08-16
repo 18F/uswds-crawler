@@ -1,13 +1,51 @@
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
 
+const CACHE_DIR = path.join(__dirname, 'cache');
 const WHO_IS_USING_USWDS = fs.readFileSync(
   path.join(__dirname, 'node_modules', 'uswds', 'WHO_IS_USING_USWDS.md'),
   'utf-8'
 );
 
-const sites = [];
-const slugs = new Set();
+class Site {
+  constructor(name, url) {
+    this.name = name;
+    this.url = url;
+    this.slug = slugify(name);
+    this.desc = `${chalk.white.bold(name)} (${chalk.gray.dim(url)})`;
+    this._cacheFilename = path.join(CACHE_DIR, `${this.slug}.html`);
+  }
+
+  hasCacheSync() {
+    return fs.existsSync(this._cacheFilename);
+  }
+
+  setCacheSync(content) {
+    if (!fs.existsSync(CACHE_DIR)) {
+      fs.mkdirSync(CACHE_DIR);
+    }
+
+    fs.writeFileSync(this._cacheFilename, content);
+  }
+
+  getCacheSync() {
+    if (this.hasCacheSync()) {
+      return fs.readFileSync(this._cacheFilename, 'utf-8');
+    }
+    return null;
+  }
+}
+
+Site.all = [];
+Site.slugs = new Set();
+Site.add = function(site) {
+  if (this.slugs.has(site.slug)) {
+    throw new Error(`Duplicate slug: ${site.slug}`);
+  }
+  this.slugs.add(site.slug);
+  this.all.push(site);
+};
 
 // https://gist.github.com/mathewbyrne/1280286
 function slugify(text) {
@@ -22,19 +60,14 @@ function slugify(text) {
 WHO_IS_USING_USWDS.split('\n').forEach(line => {
   const match = line.match(/- \[(.+)\]\((.+)\)/);
   if (match) {
-    const name = match[1];
-    const url = match[2];
-    const slug = slugify(name);
-    if (slugs.has(slug)) {
-      throw new Error(`Duplicate slug: ${slug}`);
-    }
-    slugs.add(slug);
-    sites.push({ slug, name, url });
+    Site.add(new Site(match[1], match[2]));
   }
 });
 
-module.exports = sites;
+module.exports = Site;
 
 if (!module.parent) {
-  console.log(sites);
+  Site.all.forEach(site => {
+    console.log(site.desc);
+  });
 }
