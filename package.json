@@ -1,8 +1,7 @@
 {
   "name": "uswds-crawler",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Tools for extracting information about how sites use the U.S. Web Design Standards.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
