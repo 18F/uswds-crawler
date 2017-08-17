@@ -58,7 +58,7 @@ function reportUsaClassUsageSync() {
 
   if (invalidSites.length) {
     console.log("\nAdditionally, the following sites do not use *any*\n" +
-                "clases that begin with `usa-`:\n");
+                "classes that begin with `usa-`:\n");
     invalidSites.forEach(site => console.log(`* ${site.desc}`));
   }
 }
