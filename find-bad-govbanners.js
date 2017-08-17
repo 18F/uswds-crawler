@@ -1,3 +1,5 @@
+'use strict';
+
 const cheerio = require('cheerio');
 const chalk = require('chalk');
 

@@ -1,3 +1,5 @@
+'use strict';
+
 const markdownTable = require('markdown-table');
 const sites = require('./sites');
 
