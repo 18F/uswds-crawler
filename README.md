@@ -4,7 +4,7 @@ obtain information about how websites use the
 
 ## Quick start
 
-You'll need [Node JS][].
+You'll need [Node JS][] version 7.10 or greater.
 
 ```
 npm install

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 
+const ERROR_PREFIX = 'ERROR:';
 const CACHE_DIR = path.join(__dirname, 'cache');
 const WHO_IS_USING_USWDS = fs.readFileSync(
   path.join(__dirname, 'node_modules', 'uswds', 'WHO_IS_USING_USWDS.md'),
@@ -21,12 +22,22 @@ class Site {
     return fs.existsSync(this._cacheFilename);
   }
 
+  hasCacheErrorSync() {
+    const cache = this.getCacheSync();
+
+    return cache && cache.indexOf(ERROR_PREFIX) === 0;
+  }
+
   setCacheSync(content) {
     if (!fs.existsSync(CACHE_DIR)) {
       fs.mkdirSync(CACHE_DIR);
     }
 
     fs.writeFileSync(this._cacheFilename, content);
+  }
+
+  setCacheErrorSync(err) {
+    this.setCacheSync(`${ERROR_PREFIX} ${err}`);
   }
 
   getCacheSync() {
@@ -47,7 +58,8 @@ Site.add = function(site) {
   this.all.push(site);
 };
 Site.getCachedSync = function() {
-  return this.all.filter(site => site.hasCacheSync());
+  return this.all.filter(site => site.hasCacheSync() &&
+                                 !site.hasCacheErrorSync());
 };
 
 // https://gist.github.com/mathewbyrne/1280286

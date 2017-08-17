@@ -12,6 +12,7 @@
     "chalk": "^2.1.0",
     "cheerio": "^1.0.0-rc.2",
     "markdown-table": "^1.1.1",
+    "puppeteer": "^0.9.0",
     "request": "^2.81.0",
     "uswds": "github:18f/web-design-standards#b89428f"
   }
